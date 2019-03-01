@@ -13,12 +13,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 public class ConnectFour extends Application {
-    private int moveNumber = 0;
-    private ArrayList<ArrayList<Circle>> circArray = new ArrayList<>();
+    private int moveNumber = 0;//keeps track of whose turn it is
+    private ArrayList<ArrayList<Circle>> circArray = new ArrayList<>(); //use this to change the grid
 
     public void start(Stage primaryStage) {
-        GridPane myPane = new GridPane();
-        myPane.setPrefWidth(390);
+        GridPane myPane = new GridPane(); //create a grid pane for the game
+        myPane.setPrefWidth(400);
         myPane.setPrefHeight(350);
         myPane.setPadding(new Insets(20,20,20,20));
         myPane.setVgap(10);
@@ -33,9 +33,9 @@ public class ConnectFour extends Application {
                 circ.setStroke(Color.BLACK);
                 myPane.add(circ,i,j);
                 circ.setOnMouseClicked(e -> circleLogic(circ));
-                circRow.add(circ);
+                circRow.add(circ); //Create rows for the circle array list
             }
-            circArray.add(circRow);
+            this.circArray.add(circRow); //add circle objects to the Array List
         }
         System.out.println(myPane);
 
@@ -53,33 +53,34 @@ public class ConnectFour extends Application {
         moveNumber++;
 
         //check all cases for wins using methods below
-        checkUp();
+        checkVert();
         checkHorizontal();
         checkDiagonalRight();
         checkDiagonalLeft();
     }
 
-    private void checkUp(){
-        int winNumberUpRed = 0;
-        int winNumberUpBlue = 0;
+    private void checkVert(){
+        int winNumberVertRed = 0;
+        int winNumberVertBlue = 0;
 
+        //check all vertical possibilities for a winner
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 6; j++){
-                if (this.circArray.get(j).get(i).getFill() == Color.BLUE ) winNumberUpBlue++;
-                else winNumberUpBlue = 0;
+                if (this.circArray.get(j).get(i).getFill() == Color.BLUE ) winNumberVertBlue++;
+                else winNumberVertBlue = 0;
 
-                if (this.circArray.get(j).get(i).getFill() == Color.RED ) winNumberUpRed++;
-                else winNumberUpRed = 0;
+                if (this.circArray.get(j).get(i).getFill() == Color.RED ) winNumberVertRed++;
+                else winNumberVertRed = 0;
 
                 //TDL Break it off when a winner is found
-                if (winNumberUpRed == 4 || winNumberUpBlue == 4){
+                if (winNumberVertRed == 4 || winNumberVertBlue == 4){
 
                         animation(this.circArray.get(j).get(i));
                         animation(this.circArray.get(j - 1).get(i));
                         animation(this.circArray.get(j - 2).get(i));
                         animation(this.circArray.get(j - 3).get(i));
-                        winNumberUpBlue = 0;
-                        winNumberUpRed = 0;
+                        winNumberVertBlue = 0;
+                        winNumberVertRed = 0;
                     }
                 }
             }
@@ -90,6 +91,7 @@ public class ConnectFour extends Application {
         int winNumberHorizontalBlue = 0;
         int winNumberHorizontalRed = 0;
 
+        //check all horizontal possibilities for a winner
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++){
                 if (this.circArray.get(i).get(j).getFill() == Color.BLUE ) winNumberHorizontalBlue++;
@@ -117,6 +119,7 @@ public class ConnectFour extends Application {
         int winNumberDiagRightRed = 0;
         int winNumberDiagRightBlue = 0;
 
+        //check diagonal possibilities going up and down from right
         for (int i = 0; i < 3 ; i++) {
             for (int j = 0; j < 4; j++) {
                 for (int k = 0; k < 4; k++) {
@@ -129,10 +132,10 @@ public class ConnectFour extends Application {
                         animation(this.circArray.get(i + k - 1).get(j + k - 1));
                         animation(this.circArray.get(i + k - 2).get(j + k - 2));
                         animation(this.circArray.get(i + k - 3).get(j + k - 3));
+                        winNumberDiagRightRed = 0;
+                        winNumberDiagRightBlue = 0;
                     }
                 }
-                winNumberDiagRightRed = 0;
-                winNumberDiagRightBlue = 0;
             }
         }
     }
@@ -142,6 +145,7 @@ public class ConnectFour extends Application {
         int winNumberDiagLeftRed = 0;
         int winNumberDiagLeftBlue = 0;
 
+        //check diagonal possibilities going up and down from left
         for (int i = 0; i < 3 ; i++) {
             for (int j = 4; j < 7; j++) {
                 for (int k = 0; k < 4; k++) {
@@ -154,13 +158,12 @@ public class ConnectFour extends Application {
                         animation(this.circArray.get(i + k - 1).get(j - k + 1));
                         animation(this.circArray.get(i + k - 2).get(j - k + 2));
                         animation(this.circArray.get(i + k - 3).get(j - k + 3));
+                        winNumberDiagLeftRed = 0;
+                        winNumberDiagLeftBlue = 0;
                     }
                 }
-                winNumberDiagLeftRed = 0;
-                winNumberDiagLeftBlue = 0;
             }
         }
-
     }
 
     //make animation here for when winning move is made

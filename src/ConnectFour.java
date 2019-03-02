@@ -24,7 +24,6 @@ public class ConnectFour extends Application {
         myPane.setVgap(10);
         myPane.setHgap(10);
 
-
         //create the connect four grid
         for (int j = 0; j < 6 ; j++) {
             ArrayList<Circle> circRow = new ArrayList<>();
@@ -72,7 +71,6 @@ public class ConnectFour extends Application {
                 if (this.circArray.get(j).get(i).getFill() == Color.RED ) winNumberVertRed++;
                 else winNumberVertRed = 0;
 
-                //TDL Break it off when a winner is found
                 if (winNumberVertRed == 4 || winNumberVertBlue == 4){
 
                         animation(this.circArray.get(j).get(i));
@@ -85,7 +83,6 @@ public class ConnectFour extends Application {
                 }
             }
         }
-
 
     private void checkHorizontal(){
         int winNumberHorizontalBlue = 0;
@@ -114,7 +111,6 @@ public class ConnectFour extends Application {
             }
         }
 
-
     private void checkDiagonalRight(){
         int winNumberDiagRightRed = 0;
         int winNumberDiagRightBlue = 0;
@@ -132,14 +128,13 @@ public class ConnectFour extends Application {
                         animation(this.circArray.get(i + k - 1).get(j + k - 1));
                         animation(this.circArray.get(i + k - 2).get(j + k - 2));
                         animation(this.circArray.get(i + k - 3).get(j + k - 3));
-                        winNumberDiagRightRed = 0;
-                        winNumberDiagRightBlue = 0;
                     }
                 }
+                winNumberDiagRightRed = 0;
+                winNumberDiagRightBlue = 0;
             }
         }
     }
-
 
     private void checkDiagonalLeft(){
         int winNumberDiagLeftRed = 0;
@@ -162,6 +157,8 @@ public class ConnectFour extends Application {
                         winNumberDiagLeftBlue = 0;
                     }
                 }
+                winNumberDiagLeftRed = 0;
+                winNumberDiagLeftBlue = 0;
             }
         }
     }
